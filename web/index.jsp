@@ -9,6 +9,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/canvas-script.js"></script>
     <link rel="stylesheet" href="styles/animation.css">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="stylesheet" href="styles/mainContent.css">
@@ -109,15 +110,15 @@
                         <div id="ry-container">
                             <div id="y-form">
                                 <label for="y-input" style="white-space: nowrap">Значение Y:</label>
-                                <input type="text" name="y-input" id="y-input">
+                                <input type="text" placeholder="(-3 ... 5)" name="y-input" id="y-input">
                             </div>
                             <div id="r-form">
                                 Значение R:
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="1" checked="checked">1</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="2">2</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="3">3</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="4">4</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="5">5</label>
+                                <label class="radioBlock"><input type="radio" name="r-radio" value="1" checked="checked" onmousedown="radioClick(this)">1</label>
+                                <label class="radioBlock"><input type="radio" name="r-radio" value="2" onmousedown="radioClick(this)">2</label>
+                                <label class="radioBlock"><input type="radio" name="r-radio" value="3" onmousedown="radioClick(this)">3</label>
+                                <label class="radioBlock"><input type="radio" name="r-radio" value="4" onmousedown="radioClick(this)">4</label>
+                                <label class="radioBlock"><input type="radio" name="r-radio" value="5" onmousedown="radioClick(this)">5</label>
                             </div>
                             <div id="submit-form">
                                 <button id="submitButton" class="button" onmousedown="submitForm()">
@@ -131,7 +132,10 @@
             </td>
             <td>
                 <div id="rightSide">
-                    <img id="graph" src="images/graph.png">
+                    <div id="graph">
+                        <canvas id="task-chart"></canvas>
+                        <img src="images/graph.png">
+                    </div>
                     <div id="response">
 
                     </div>

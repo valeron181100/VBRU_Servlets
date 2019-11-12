@@ -36,8 +36,6 @@ $(window).scroll((event)=>{
         $('#sidePanel').css({'position' : 'absolute',
             'margin-top': '-4vh'});
     }
-
-
 });
 
 function historyBtnClick() {
@@ -49,18 +47,25 @@ function historyBtnClick() {
     $.ajax({
         url: '/controller',
         type: 'POST',
-        // data: ({id: id}),
         dataType: 'html',
         beforeSend: function () {
             //loading animation
             $('#history').html('<div class="windows8"><div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div></div>');
         },
         success: function (data) {
-            $('#history').html('');
+            $("#history").html('');
             $('#history').html('<h1>History</h1>');
             if(data !== 'null'){
                 $('#history').html($('#history').html() + '<ol class="historyList"></ol>');
-                $('.historyList').html(data);
+
+                JSON.parse(data).forEach((p, i)=>{
+                    let liEl = document.createElement('li');
+                    let spanEl = document.createElement('span');
+                    spanEl.textContent = "x=" + p.x +", y=" + p.y +", R=" + p.r+" ("+
+                        (p.isIncluded ? "Входит" : "Не входит") +")";
+                    liEl.appendChild(spanEl);
+                    $('.historyList').append(liEl);
+                });
             }
             else{
                 $('#history').html($('#history').html() + '<div class="empty-history"><img src="images/history-big.png" alt="Empty history"/><span>Здесь пока ничего нет(</span></div>');
@@ -87,34 +92,41 @@ function mainContentClick() {
 function isYvalid() {
     var $yInput = $('input[name="y-input"]');
 
-    if(/^(((\-[1-2])|[0-4])(\.\d+)?)$/.test($yInput.val().trim())){
-        y_coord = $yInput.val();
+    if(/^(((\-[1-2])|[0-4])([\.|\,]\d+)?)$/.test($yInput.val().trim())){
+        y_coord = $yInput.val().replace('\,', '.');
         return true;
     }
     else{
         if($yInput.val().length == 0)
             myalert('Ошибка: Y-координата не была введена!')
         else
-            myalert('Ошибка: Y-координата была введена неверно!')
+            myalert('Ошибка: Y-координата была введена неверно!');
         return false;
     }
 }
 
-function submitForm() {
-    if(isYvalid() && x_coord != 10){
+function getR() {
+    r_coord = $('input[name=r-radio]:checked').val();
+    return r_coord;
+}
 
-        $(".radioBlock input").each((i,p) => {
-            if($(p).attr("checked") == "checked"){
-                r_coord = $(p).val();
+function submitForm(isCheckingSkip = false) {
+    if(!isCheckingSkip) {
+        if (isYvalid() && x_coord != 10) {
+            getR();
+            if (r_coord != 10) {
+                location.href = "/controller?x-button=" + x_coord + "&y-input=" + y_coord + "&r-radio=" + r_coord
             }
-        });
-
-        if(r_coord != 10){
-            location.href = "/controller?x-button=" + x_coord + "&y-input=" + y_coord + "&r-radio=" + r_coord
+        }
+    }else{
+        if (x_coord != 10) {
+            getR();
+            if (r_coord != 10) {
+                location.href = "/controller?x-button=" + x_coord + "&y-input=" + y_coord + "&r-radio=" + r_coord
+            }
         }
     }
 }
-
 
 function myalert(text) {
     var div = document.createElement('div');

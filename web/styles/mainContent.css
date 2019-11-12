@@ -100,8 +100,23 @@ select{
     width: calc(70vmin / 1.5 );
     height: calc(70vmin / 1.5 );
     border-radius: 30px;
+    /*box-shadow: -1px 10px 44px -6px black;*/
+
+}
+
+#graph canvas, #graph img{
+    width: calc(70vmin / 1.5 );
+    height: calc(70vmin / 1.5 );
+    border-radius: 30px;
+}
+
+#graph canvas{
+    position: absolute;
     box-shadow: -1px 10px 44px -6px black;
 }
+
+
+
 
 #response{
     /* border: 2px solid red; */

@@ -1,3 +1,6 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,12 +56,20 @@ public class ControllerServlet extends HttpServlet {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
+        JSONArray array = new JSONArray();
         ResultStorage.getInstance().getResults(userId).forEach(p -> {
-            String str = "<li><span>x="+p.getPoint().getX()+", y="+p.getPoint().getY()+", R="+p.getrArea()+" ("+
-                    (p.isIncluded() ? "Входит" : "Не входит") +")</span></li>";
-            stringBuilder.append(str);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("x", p.getPoint().getX());
+            jsonObject.put("y", p.getPoint().getY());
+            jsonObject.put("r", p.getrArea());
+            jsonObject.put("isIncluded", p.isIncluded());
+            array.put(jsonObject);
+//            String str = "<li><span>x="+p.getPoint().getX()+", y="+p.getPoint().getY()+", R="+p.getrArea()+" ("+
+//                    (p.isIncluded() ? "Входит" : "Не входит") +")</span></li>";
+//            stringBuilder.append(str);
         });
         resp.setContentType("text/html; charset=UTF-8");
-        resp.getWriter().print(stringBuilder.toString());
+        String k = array.toString();
+        resp.getWriter().print(array.toString());
     }
 }

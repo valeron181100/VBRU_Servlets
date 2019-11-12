@@ -10,36 +10,57 @@ const axisesColor = "black";
 const signsColor = axisesColor;
 
 const signsFont = "14px monospace";
+var R = 1;
+var chartWidth = 220;
+var chartHeight = chartWidth;
+const rCoefficient = 0.4;
 
 $(document).ready(()=>{
     let canvas = $("#task-chart")[0];
     canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetWidth;
+    canvas.height = canvas.width;
+    chartWidth = canvas.offsetWidth;
+    chartHeight = chartWidth;
+    // chartWidth = canvas.width;
     draw();
     $("#task-chart").bind("click", click);
-})
+
+    window.onresize = (event)=>{
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.width;
+        chartWidth = canvas.offsetWidth;
+        chartHeight = chartWidth;
+        draw();
+    };
+});
+
+function radioClick(element) {
+    R = parseInt(element.value);
+    $("#task-chart")[0].getContext('2d').clearRect(0, 0, $("#task-chart")[0].width, $("#task-chart")[0].height);
+    draw();
+}
 
 function draw() {
     let canvas = $("#task-chart")[0];
     drawAxises(canvas);
     drawAxisesSigns(canvas);
-    let R = 5;
+    // let R = 5;
     drawPointsSigns(canvas, R);
-    if (!$("#result-table-container").hasClass("hidden")) {
-        let results = $("#result-table tbody tr");
-        for (var i = results.length - 1; i >= 0; i--) {
-            let X = results.eq(i).find("td").eq(0).text();
-            let Y = results.eq(i).find("td").eq(1).text();
-            let R = document.getElementById('computation-form:slider-input-R').value;
-            let originalX = toOriginalX(X, R);
-            let originalY = toOriginalY(Y, R);
-            if (results.eq(i).find("td").eq(4).text().trim() == "Да") {
-                drawPoint(canvas, originalX, originalY, "GreenYellow");
-            } else {
-                drawPoint(canvas, originalX, originalY, "Red");
-            }
-        }
-    }
+    redraw(R);
+    // if (!$("#result-table-container").hasClass("hidden")) {
+    //     let results = $("#result-table tbody tr");
+    //     for (var i = results.length - 1; i >= 0; i--) {
+    //         let X = results.eq(i).find("td").eq(0).text();
+    //         let Y = results.eq(i).find("td").eq(1).text();
+    //         let originalX = toOriginalX(X, R);
+    //         let originalY = toOriginalY(Y, R);
+    //         if (results.eq(i).find("td").eq(4).text().trim() == "Да") {
+    //             drawPoint(canvas, originalX, originalY, "GreenYellow");
+    //         } else {
+    //             drawPoint(canvas, originalX, originalY, "Red");
+    //         }
+    //     }
+    // }
 }
 
 function drawAxises(canvas) {
@@ -147,20 +168,40 @@ function drawPoint(canvas, x, y, pointColor) {
 }
 
 function click(event) {
+    R = getR();
     let canvas = event.target;
-
     let originalX = event.pageX - canvas.offsetLeft;
     let originalY = event.pageY - canvas.offsetTop;
 
     console.log('x = ' + originalX + '; y = ' + originalY);
-    drawPoint($('#task-chart')[0], originalX, originalY, 'black');
+
+    console.log('canvasWidth = ' + chartWidth);
+
+    console.log('R = ' + R);
+
+    let compY = String(toComputingY(originalY, R)).substring(0, 10);
+    let compX = String(toComputingX(originalX, R)).substring(0, 10);
+
+    console.log('compX = ' + compX + '; compY = ' + compY);
+
+    let roundedX = Math.round(parseFloat(compX));
+    if(roundedX > 3) roundedX = 3;
+    if(roundedX < -5) roundedX = -5;
+    let roundedY = parseFloat(compY).toFixed(4);
+
+    console.log('roundedX = ' + roundedX + '; roundedY = ' + roundedY);
+
+    if(roundedY < 5 && roundedY > -3){
+        x_coord = roundedX;
+        y_coord = roundedY;
+        submitForm(true);
+    } else{
+        myalert("Неверные данные!")
+    }
+
+    // drawPoint($('#task-chart')[0], originalX, originalY, 'black');
     //document.getElementById('canvas-form:canvas-form-button').click();
 }
-
-
-const chartWidth = 330;
-const chartHeight = chartWidth;
-const rCoefficient = 0.4;
 
 function toOriginalX(computingX, R) {
     let X = computingX / R;
@@ -192,4 +233,30 @@ function toComputingY(originalY, R) {
     Y *= R;
 
     return Y;
+}
+
+function redraw(r) {
+    $.ajax({
+        url: '/controller',
+        type: 'POST',
+        dataType: 'html',
+        beforeSend: function () {
+            console.log('redrawing points...');
+        },
+        success: function (data) {
+            if(data !== 'null'){
+                JSON.parse(data).forEach((p, i)=>{
+                    if(p.r == r){
+                        if(p.isIncluded){
+                            drawPoint($('#task-chart')[0], toOriginalX(p.x, r), toOriginalY(p.y, r), "green");
+                        }else{
+                            drawPoint($('#task-chart')[0], toOriginalX(p.x, r), toOriginalY(p.y, r), "red");
+                        }
+                    }else{
+                        drawPoint($('#task-chart')[0], toOriginalX(p.x, r), toOriginalY(p.y, r), "black");
+                    }
+                });
+            }
+        }
+    });
 }
