@@ -10,12 +10,14 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/canvas-script.js"></script>
+    <script src="js/compat.js"></script>
     <link rel="stylesheet" href="styles/animation.css">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="stylesheet" href="styles/mainContent.css">
     <link rel="stylesheet" href="styles/button.css">
     <link rel="stylesheet" href="styles/history.css">
     <link rel="stylesheet" href="styles/loading.css">
+    <script type="text/javascript">const jspContextPath = '${pageContext.request.contextPath}';</script>
 </head>
 <body>
 <div id="mainHeader">
