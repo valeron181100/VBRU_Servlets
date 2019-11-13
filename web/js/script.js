@@ -55,7 +55,7 @@ function historyBtnClick() {
         success: function (data) {
             $("#history").html('');
             $('#history').html('<h1>History</h1>');
-            if(data !== 'null'){
+            if(data !== 'null' && data !== '[]'){
                 $('#history').html($('#history').html() + '<ol class="historyList"></ol>');
 
                 JSON.parse(data).forEach((p, i)=>{
