@@ -26,9 +26,18 @@ public class ResultStorage implements Serializable {
     }
 
     public ArrayList<Result> getResults(UUID id){
-        return results.stream().
-                filter(p -> p.getKey().equals(id)).map(Pair::getVal).
-                collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Result> list = new ArrayList<>();
+        results.forEach(p -> {
+            if(p.getKey() != null)
+                if(p.getKey().equals(id))
+                    list.add(p.getVal());
+        });
+
+//        return results.stream().
+//                filter(p -> p.getKey().equals(id)).map(Pair::getVal).
+//                collect(Collectors.toCollection(ArrayList::new));
+
+        return list;
     }
 
     public void addResult(UUID userId, double x, double y, double r, boolean isIncluded){

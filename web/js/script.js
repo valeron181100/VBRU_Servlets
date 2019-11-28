@@ -11,6 +11,11 @@ $(document).ready(()=>{
         x_coord = $(e.target).val();
     });
 
+    if(!navigator.cookieEnabled){
+        myalert("Cookie-файлы отключены. Чтобы просматривать историю запросов, \nа также для отображения точек на графике, необходимо включить cookie.",
+            5000)
+    }
+
     // $('#submitButton').click(event=>{
     //     event.stopPropagation();
     //     event.preventDefault();
@@ -128,7 +133,7 @@ function submitForm(isCheckingSkip = false) {
     }
 }
 
-function myalert(text) {
+function myalert(text, duration = 2000) {
     var div = document.createElement('div');
     div.classList.add('alertMessage');
     div.innerHTML = text;
@@ -143,7 +148,7 @@ function myalert(text) {
         $(div).animate({
             opacity: 0.0
         }, 1000);
-    }, 2000);
+    }, duration);
 }
 
 function onXSelected(button){

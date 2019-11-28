@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class AreaCheckServlet extends HttpServlet {
     public static final String IS_INCLUDED_TAG = "is-included";
-
+    public static final String IS_USER_INPUT_TAG = "isUserInput";
 
 
     @Override
@@ -19,6 +19,9 @@ public class AreaCheckServlet extends HttpServlet {
         Double y = Double.parseDouble(req.getParameter(ControllerServlet.Y_TAG));
         Double r = Double.parseDouble(req.getParameter(ControllerServlet.R_TAG));
 
+        getServletContext().setAttribute(IS_USER_INPUT_TAG, false);
+
+        resp.setHeader("X-IsUserInput", "false");
         if(isHit(x, y, r)){
             ResultStorage.getInstance().addResult((UUID)req.getSession().getAttribute(ControllerServlet.USER_ID_TAG),
                     x, y, r, true);

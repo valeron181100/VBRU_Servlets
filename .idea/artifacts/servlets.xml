@@ -9,6 +9,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="json-20180813" />
+          <element id="library" level="project" name="taglibs-standard-impl-1.2.5" />
         </element>
       </element>
     </root>

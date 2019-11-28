@@ -184,9 +184,7 @@ function click(event) {
 
     console.log('compX = ' + compX + '; compY = ' + compY);
 
-    let roundedX = Math.round(parseFloat(compX));
-    if(roundedX > 3) roundedX = 3;
-    if(roundedX < -5) roundedX = -5;
+    let roundedX = parseFloat(compX);
     let roundedY = parseFloat(compY).toFixed(4);
 
     console.log('roundedX = ' + roundedX + '; roundedY = ' + roundedY);

@@ -3,11 +3,13 @@ import org.json.JSONObject;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.SingleThreadModel;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -57,6 +59,7 @@ public class ControllerServlet extends HttpServlet {
 
         StringBuilder stringBuilder = new StringBuilder();
         JSONArray array = new JSONArray();
+        ArrayList<Result> instance = ResultStorage.getInstance().getResults(userId);
         ResultStorage.getInstance().getResults(userId).forEach(p -> {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("x", p.getPoint().getX());
