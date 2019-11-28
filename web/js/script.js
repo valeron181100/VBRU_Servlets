@@ -147,7 +147,9 @@ function myalert(text, duration = 2000) {
     setTimeout(()=>{
         $(div).animate({
             opacity: 0.0
-        }, 1000);
+        }, 1000, 'swing', function () {
+            div.remove();
+        });
     }, duration);
 }
 

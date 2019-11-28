@@ -147,6 +147,10 @@ select{
     height: 15vh;
 }
 
+#task-chart{
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 1450px){
     #y-form,#x-form, #r-form{
         flex-direction: column;

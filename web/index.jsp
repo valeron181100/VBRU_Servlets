@@ -116,11 +116,11 @@
                             </div>
                             <div id="r-form">
                                 Значение R:
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="1" checked="checked" onmousedown="radioClick(this)">1</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="2" onmousedown="radioClick(this)">2</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="3" onmousedown="radioClick(this)">3</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="4" onmousedown="radioClick(this)">4</label>
-                                <label class="radioBlock"><input type="radio" name="r-radio" value="5" onmousedown="radioClick(this)">5</label>
+                                <label class="radioBlock" for="r1-radio" onmousedown="radioClick(this.firstChild)"><input id="r1-radio" type="radio" name="r-radio" value="1" checked="checked" onmousedown="radioClick(this)">1</label>
+                                <label class="radioBlock" for="r2-radio" onmousedown="radioClick(this.firstChild)"><input id="r2-radio" type="radio" name="r-radio" value="2" onmousedown="radioClick(this)">2</label>
+                                <label class="radioBlock" for="r3-radio" onmousedown="radioClick(this.firstChild)"><input id="r3-radio" type="radio" name="r-radio" value="3" onmousedown="radioClick(this)">3</label>
+                                <label class="radioBlock" for="r4-radio" onmousedown="radioClick(this.firstChild)"><input id="r4-radio" type="radio" name="r-radio" value="4" onmousedown="radioClick(this)">4</label>
+                                <label class="radioBlock" for="r5-radio" onmousedown="radioClick(this.firstChild)"><input id="r5-radio" type="radio" name="r-radio" value="5" onmousedown="radioClick(this)">5</label>
                             </div>
                             <div id="submit-form">
                                 <button id="submitButton" class="button" onmousedown="submitForm()">

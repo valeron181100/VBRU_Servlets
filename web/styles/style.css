@@ -172,12 +172,14 @@ body{
     justify-content: center;
     align-items: center;
     user-select: none;
+    cursor: pointer;
     /* border: 1.5px solid black; */
 }
 
 .menuButton img{
     height: 100%;
     width: inherit;
+    cursor: pointer;
 }
 
 .sideItem {
@@ -194,6 +196,7 @@ body{
     border-top-left-radius: 5px;
     transition: 0.35s;
     background: none;
+    cursor: pointer;
 }
 
 .sideItem:hover{
@@ -221,8 +224,6 @@ body{
     font-size: 16px;
     font-weight: bold;
 }
-
-
 
 
 /* @media only screen and (max-width: 1600px){
